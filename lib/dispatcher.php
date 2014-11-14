@@ -1,7 +1,7 @@
 <?php
 
 require_once "app.php";
-require_once "../config/config.php";
+include "../config/config.php";
 
 class Dispatcher {
 
@@ -30,6 +30,9 @@ class Dispatcher {
         $this->request = APP::parseUrl($this->_request);
 
         try {
+            new APP();
+            require_once '../config/boot.php';
+
             $className = APP::camelcase($this->request->controller);
             $ctrlName = "{$className}Controller";
             $ctrl = new $ctrlName($this->request);

@@ -1,5 +1,7 @@
 <?php
 
+define('DS', DIRECTORY_SEPARATOR);
+
 require_once 'controller.php';
 require_once 'model.php';
 require_once 'router.php';
@@ -112,9 +114,15 @@ class APP {
         return $url;
     }
 
-    public static function settings($name) {
+    public static function settings($name, $locale=null) {
         if (! self::$settings) {
-            $locale = Locale::get();
+            if (! $locale) {
+                if (! $locale = Locale::get()) {
+                    $langs = array_keys(Locale::languages());
+                    $locale = @$langs[0];
+                    Locale::set($locale);
+                }
+            }
             $path = implode(DS, array(self::$ROOT, "config", "settings" . ($locale ? ".{$locale}" : "") .".data"));
             self::$settings = unserialize(file_get_contents($path));
         }
@@ -182,8 +190,5 @@ class APP {
         return "{$size}B";
     }
 }
-
-new APP();
-require_once '../config/boot.php';
 
 ?>

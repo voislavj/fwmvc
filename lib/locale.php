@@ -19,12 +19,12 @@ class Locale {
     public static function initLanguages() {
         $args     = func_get_args();
         $instance = self::getInstance();
-        
         $l10n = I18n::getInstance()->l10n;
         foreach($args as $lang) {
             $catalog = $l10n->catalog($lang);
             $instance->languages[$lang] = $catalog['language'];
         }
+        return $instance;
     }
 
     public static function languages() {
