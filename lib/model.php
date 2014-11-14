@@ -127,9 +127,16 @@ class Model {
         return (object)$obj;
     }
 
-    public static function create() {
-        return self::getInstance()
+    public static function create($data=array()) {
+        $record = self::getInstance()
                 ->createRecord();
+        if (! empty($data)) {
+            foreach ($data as $k=>$v) {
+                $record->$k = $v;
+            }
+        }
+
+        return $record;
     }
 
     public static function get($id, $fields="*") {
