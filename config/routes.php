@@ -1,0 +1,7 @@
+<?php
+
+Router::load(array(
+
+));
+
+?>

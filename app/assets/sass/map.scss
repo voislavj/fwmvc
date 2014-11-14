@@ -1,0 +1,25 @@
+body {
+    .left {
+        margin-right:20px;
+
+        b {
+            display:inline-block;
+            width:60px;
+            text-align:right;
+            margin-right:5px
+        }
+    }
+
+    #map {
+        width:94%;
+        padding:3% 3% 0;
+        height:420px;
+        background:white;
+
+        .map {
+            width:100%;
+            height:400px;
+            float:right
+        }
+    }
+}

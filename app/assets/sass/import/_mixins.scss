@@ -1,0 +1,21 @@
+@mixin box-shadow($dx, $dy, $r, $color) {
+    box-shadow: $dx $dy $r $color;
+}
+@mixin box-shadow-none {
+    box-shadow: none;
+}
+
+@mixin inner-shadow($dx, $dy, $r, $color) {
+    box-shadow: inset $dx $dy $r $color;
+}
+
+@mixin border-radius($r) {
+    border-radius: $r $r $r $r;
+}
+
+@mixin text-shadow($x, $y, $r, $color) {
+    text-shadow: $x $y $r $color;
+}
+@mixin text-shadow-none {
+    text-shadow: none
+}

@@ -1,0 +1,99 @@
+header {
+    menu {
+        list-style: none;
+        text-transform: uppercase;
+        font-size:18px;
+        position:absolute;
+        left:200px;
+        width:$container-width - 200px;
+
+        li {
+            float:left;
+
+            a {
+                display:block;
+                line-height: $header-height;
+                padding:0 20px;
+                text-decoration:none;
+                color:rgba(white, 0.5);
+
+                &:hover {
+                    color:white;
+                    background:rgba(#fff, 0.2);
+                    border-bottom: 5px solid $blue-light;
+                }
+            }
+
+            &:last-child {
+                float:right
+            }
+
+            &.selected {
+                a {
+                    color:white;
+                    background:rgba($blue-light, 0.6);
+                    border-bottom: 5px solid $blue-light;
+                }
+            }
+        }
+    }
+}
+
+@media all and(max-width:900px) {
+    html {
+        body {
+            header {
+                menu {
+                    position:fixed;
+                    left:100%;
+                    top:0;
+                    background:$blue;
+                    z-index: 999;
+                    width:100%;
+                    text-align:center;
+                    @include box-shadow(0, 0, 10px, $grey);
+
+                    li {
+                        display:block;
+                        float:none !important;
+
+                        &.selected a, a:hover {
+                            border:none
+                        }
+
+                        &.toggler {
+                            cursor:pointer;
+                            display:block;
+                            content: "a";
+                            width:48px;
+                            height:48px;
+                            background: {
+                                image: image-url('menu.png');
+                                repeat: no-repeat;
+                                position: center center;
+                            }
+                            position:absolute;
+                            z-index:1;
+                            left:-60px;
+                            top:8px;
+                            text-indent: -100em;
+                            overflow:hidden;
+                        }
+
+                        &:last-child {
+                            position:static;
+                            width:auto;
+                        }
+                    }
+
+                    &.opened {
+                        li.toggler {
+                            left:auto;
+                            right:8px
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

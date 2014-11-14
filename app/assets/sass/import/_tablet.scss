@@ -1,0 +1,93 @@
+@media all and (max-width: 900px) {
+    html {
+        body {
+            font-size:14px;
+
+            .width-container {
+                width:100%
+            }
+
+            h1 {
+                padding:10px 20px;
+            }
+            p {
+                padding:0 20px 10px 20px
+            }
+
+            header {
+                height: 0.8*$header-height;
+
+                #logo {
+                    margin-left:10px;
+                    height:0.8*$header-height;
+
+                    img {
+                        padding-top:10px;
+                        height:40px;
+                    }
+                }
+            }
+
+            .slideshow-container {
+                height: auto;
+                padding-bottom:24px;
+
+                ul.slideshow {
+                    height: auto;
+
+                    li {
+                        width:auto;
+                        height: auto;
+
+                        img {
+                            width:100%;
+                            height:auto;
+                        }
+                    }
+                }
+            }
+
+            #main {
+                >.width-container {
+                    width:100%;
+                    padding:20px 0;
+                }
+                ul.products {
+                    margin:0 2%;
+                    width:96%;
+                    
+                    li {
+                        img {
+                            height:auto;
+                            width:100%
+                        }
+                    }
+                }
+            }
+        }
+
+        &.scroll {
+            body {
+                header {
+                    height:0.8*$header-height;
+                    position:static;
+
+                    #logo {
+                        background:none;
+                        width:auto;
+
+                        img {
+                            display:block;
+                        }
+                    }
+
+                    menu {
+                        li.toggler {
+                            background-color:$blue;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

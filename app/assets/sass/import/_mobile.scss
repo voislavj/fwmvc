@@ -1,0 +1,72 @@
+@media all and (max-width: 500px) {
+    html {
+        body {
+
+            .span40p {width:100%}
+            .ml5{margin-left:0}
+
+            
+            header {
+                height:0.55*$header-height;
+                @include box-shadow-none;
+
+                .width-container {
+                    #logo {
+                        height: 0.55*$header-height;
+
+                        img {
+                            padding-top:7px;
+                            padding-left:0;
+                            height:30px
+                        }
+                    }
+
+                    menu {
+
+                        li.toggler {
+                            width:  26px;
+                            height: 26px;
+                            background-color:$blue;
+                            border:5px solid $blue;
+                            left:-46px;
+                            top:3px
+                        }
+
+                        &.opened {
+                            li.toggler {
+                                left:auto;
+                                right:12px
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            #main {
+
+                ul.products {
+                    text-align: center;
+
+                    li {
+                        width:80%;
+                        display: inline-block;
+                        float:none;
+                    }
+                }
+            }
+
+            footer {
+                font-size:12px;
+
+                .block {
+                    display:block;
+                    .separator {
+                        display:none
+                    }
+                }
+            }
+            
+        }
+    }
+}

@@ -1,0 +1,29 @@
+msgid "Adresa"
+msgstr "Address"
+
+msgid "telefon"
+msgstr "phone"
+
+msgid "mobilni"
+msgstr "mobile"
+
+msgid "Br.računa"
+msgstr "Account"
+
+msgid "Imate pitanje, komentar"
+msgstr "You have a question, comment"
+
+msgid "Vaše ime"
+msgstr "Your name"
+
+msgid "Vaša e-mail adresa"
+msgstr "Your e-mail address"
+
+msgid "Poruka"
+msgstr "Message"
+
+msgid "Sigurnosno pitanje"
+msgstr "Security question"
+
+msgid "Pošalji"
+msgstr "Send"

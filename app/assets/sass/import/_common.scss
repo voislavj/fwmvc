@@ -1,0 +1,95 @@
+* {margin:0; padding:0}
+h1 {
+    padding:20px;
+
+    a {
+        color:white;
+    }
+}
+
+h2 {
+    margin:30px 0 10px;
+    color:$grey;
+    font-weight:normal;
+
+    &:first-child {
+        margin-top:0
+    }
+}
+
+p {
+    margin-bottom:10px;
+
+    &:last-child {
+        margin-bottom: 0
+    }
+}
+
+a {
+    outline:none;
+    text-decoration:underline;
+    color:$blue;
+
+    &:hover {
+        text-decoration:none;
+    }
+
+    img {
+        border:none;
+    }
+}
+
+.width-container {
+    width: $container-width;
+    margin:0 auto;
+}
+.left {float:left}
+.right{float:right}
+.clear{clear:both}
+
+.text-center {text-align:center}
+.text-right  {text-align:right}
+.text-justify{text-align:justify}
+
+.span40p {width:40%}
+
+.ml5 {margin-left:5%}
+
+.flash-message {
+    position:fixed;
+    z-index: 999;
+    left:0;
+    top:0;
+    width:100%;
+    color:white;
+    text-align: center;
+    padding:10px 0;
+    @include box-shadow(0, 5px, 10px, $grey);
+
+    .close {
+        color: white;
+        font: bold 18px/16px Arial;
+        float:right;
+        width:20px;
+        height:20px;
+        display: block;
+        text-decoration: none;
+        margin-right:10px;
+        @include border-radius(4px);
+
+        &:hover {
+            background:white;
+        }
+    }
+
+    &.ok {
+        background:$green;
+
+        .close:hover {color:$green}
+    }
+    &.error{
+        background:$red;
+
+        .close:hover{color:$red}
+    }
+}

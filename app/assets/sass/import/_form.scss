@@ -1,0 +1,56 @@
+form {
+    label {
+        display:block;
+        cursor:pointer;
+
+        &.checkbox {
+            display:inline-block;
+        }
+    }
+    input, textarea, .input {
+        width:50%;
+        padding:3px 6px;
+        border:1px solid rgba($grey, 0.5);
+        font: 14px 'PT Sans Narrow';
+
+        &[type=submit], &[href], &[type=button] {
+            width:auto;
+            background:$blue-light;
+            color:white;
+            font-size:18px;
+            text-transform: uppercase;
+            border:none;
+            cursor:pointer;
+            padding:6px 12px;
+            text-decoration: none;
+
+            &.delete {
+                background-color:$red
+            }
+
+            &:hover {
+                background:$blue;
+            }
+        }
+        &[type=checkbox], &[type=radio] {
+            width:auto !important;
+            display:inline-block;
+            margin:0 7px;
+        }
+
+        &[href] {
+            margin:0 5px;
+            padding:7px 12px;
+        }
+        &[type=submit] {
+            margin-top:5px;
+        }
+    }
+    textarea {
+        width:98%;
+        height:150px
+    }
+    .submit {
+        text-align:right
+    }
+}
