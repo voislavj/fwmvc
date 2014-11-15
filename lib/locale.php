@@ -59,6 +59,11 @@ class Locale {
         $_SESSION[self::SESSION_KEY] = $locale;
     }
 
+    public static function primary() {
+        $keys = array_keys(self::languages());
+        return @$keys[0];
+    }
+
 }
 
 ?>
