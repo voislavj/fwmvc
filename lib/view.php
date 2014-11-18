@@ -384,7 +384,8 @@ class View {
         $id   = $this->parseInputId($name);
 
         $html = '<script type="text/javascript" src="/js/google-maps-v3.js"></script>'.
-                '';
+                $this->asset('js', 'map_input').
+                '<div class="map-input">';
 
         if (isset($options['label'])) {
             $html .= $this->label($name, $options['label']);
@@ -419,36 +420,39 @@ class View {
         }
 
         $val = $options['value'];
-        $html .= $this->input(array_merge_recursive($arrName, array('map', 'lat')), array(
-                    'type'  => 'hidden',
-                    'value' => $val['map']['lat']
-                )).
-                $this->input(array_merge_recursive($arrName, array('map', 'lng')), array(
-                    'type'  => 'hidden',
-                    'value' => $val['map']['lng']
-                )).
-                $this->input(array_merge_recursive($arrName, array('map', 'zoom')), array(
-                    'type'  => 'hidden',
-                    'value' => $val['map']['zoom']
-                )).
-                $this->input(array_merge_recursive($arrName, array('streetview', 'heading')), array(
-                    'type'  => 'hidden',
-                    'value' => $val['streetview']['heading']
-                )).
-                $this->input(array_merge_recursive($arrName, array('streetview', 'pitch')), array(
-                    'type'  => 'hidden',
-                    'value' => $val['streetview']['pitch']
-                )).
-                $this->input(array_merge_recursive($arrName, array('streetview', 'zoom')), array(
-                    'type'  => 'hidden',
-                    'value' => $val['streetview']['zoom']
-                )).
-                 '<div id="'.$id.'" style="'.$css.'" class="left"></div>'.
-                 '<script type="text/javascript">
-                    new MapInput("'.$id.'", '.json_encode($val).');
-                  </script>';
+        $html .= '<div id="'.$id.'" style="'.$css.'" class="left"></div>'.
+                '<div class="left" style="margin-left:10px">'.
+                    '<fieldset><legend>' . __('mapa') . ':</legend>'.
+                    $this->text(array_merge_recursive($arrName, array('map', 'lat')), array(
+                        'value' => $val['map']['lat'],
+                        'label' => __('lat').":"
+                    )).
+                    $this->text(array_merge_recursive($arrName, array('map', 'lng')), array(
+                        'value' => $val['map']['lng'],
+                        'label' => __('lng').":"
+                    )).
+                    $this->text(array_merge_recursive($arrName, array('map', 'zoom')), array(
+                        'value' => $val['map']['zoom'],
+                        'label' => __('zoom').":"
+                    )).
+                    '</fieldset>'.
+                    '<fieldset><legend>' . __('street view') . ':</legend>'.
+                    $this->text(array_merge_recursive($arrName, array('streetview', 'heading')), array(
+                        'value' => $val['streetview']['heading'],
+                        'label' => __('heading').":"
+                    )).
+                    $this->text(array_merge_recursive($arrName, array('streetview', 'pitch')), array(
+                        'value' => $val['streetview']['pitch'],
+                        'label' => __('pitch').":"
+                    )).
+                    $this->text(array_merge_recursive($arrName, array('streetview', 'zoom')), array(
+                        'value' => $val['streetview']['zoom'],
+                        'label' => __('zoom').":"
+                    )).'</fieldset>'.
+                '</div>'.
+                '<script type="text/javascript">new MapInput("'.$id.'", '.json_encode($val).')</script>';
 
-        return $html;
+        return $html.'</div>';
     }
 
     public function image_picker($name0, $options=array()) {
