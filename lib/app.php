@@ -75,7 +75,8 @@ class APP {
         $request = (object)array(
             'controller' => 'index',
             'action'     => 'index',
-            'params'     => array()
+            'params'     => array(),
+            'named'      => array()
         );
 
         if ($r = Router::find($url)) {
@@ -83,6 +84,16 @@ class APP {
         }
 
         $tmp = explode("/", preg_replace('/^\/+|\/+$/', '', $url));
+        foreach($tmp as $k=>$v) {
+            if(preg_match('/^[a-z0-9]+:[^\/]*$/i', $v)) {
+                list($name, $value) = explode(":", $v, 2);
+                if(! empty($name) && !empty($value)) {
+                    $request->named[$name] = $value;
+                }
+                unset($tmp[$k]);
+            }
+        }
+
         if (! empty($tmp[0])) {
             $request->controller = $tmp[0];
         }

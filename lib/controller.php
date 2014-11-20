@@ -7,7 +7,7 @@ class Controller {
     public $autoRender = true;
     public $layout     = 'layout';
 
-    private $request;
+    protected $request;
     private $View;
     public $rendered = false;
 
