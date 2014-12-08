@@ -4,6 +4,11 @@ require_once 'view.php';
 
 class Controller {
 
+    public static $errors = array(
+        500 => 'Server error',
+        404 => 'Not found'
+    );
+
     public $autoRender = true;
     public $layout     = 'layout';
 
@@ -26,6 +31,9 @@ class Controller {
     public function http_error($code, $message = 'Server Error') {
         header("HTTP/1.1 {$code} {$message}");
 
+        if (App::config('environment') != 'development') {
+            $message = self::$errors[$code];
+        }
         $this->set('message', $message);
         $this->pageTitle = "Greška {$code}";
         echo $this->View->render("errors/{$code}", 'error');
@@ -113,6 +121,15 @@ class Controller {
 
     protected function GET($name, $default=false) {
         return isset($_GET[$name]) ? $_GET[$name] : $default;
+    }
+
+    protected function REQUEST($name, $default=false) {
+        $ret = $this->GET($name, $default);
+        if ($ret === $default) {
+            $ret = $this->POST($name, $default);
+        }
+
+        return $ret;
     }
 
     protected function FILE($name, $default=false) {

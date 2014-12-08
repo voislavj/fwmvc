@@ -2,6 +2,8 @@
 
 class Model {
 
+    public static $LIMIT = 10;
+
     public  $table = '';
     public  $name  = '';
 
@@ -116,8 +118,9 @@ class Model {
         return $this;
     }
 
-    public function page($page) {
+    public function page($page, $limit=null) {
         $this->q_page = $page;
+        $this->q_limit = $limit===null ? self::$LIMIT : $limit;
         return $this;
     }
 
@@ -243,24 +246,51 @@ class Model {
     }
 
     public function validateData($data) {
-        $status = true;
+        $defaultMessage = "Field %s is invalid.";
 
-        foreach ($this->validate as $field => $v) {
-            if (is_array($v)) {
-                $rule    = @$v['rule'];
-                $message = @$v['message'];
-            } else {
-                $rule = $v;
-                $message = "Field `%s` is invalid.";
-            }
+        // flatten rules
+        $rules = $this->parseValidationRule($this->validate);
+
+        $status = true;
+        foreach ($rules as $r) {
+            $rule    = $r['rule'];
+            $field   = $r['field'];
+            $message = $r['message'];
 
             if (! preg_match($rule, @$data[$field])) {
                 $status = false;
                 $this->validateErrors[$field] = sprintf($message, $field);
             }
         }
-
         return $status;
+    }
+
+    private function parseValidationRule($r, $forceField=false) {
+        $rules = array();
+        foreach($r as $field=>$v) {
+            if ($forceField) {
+                $field = $forceField;
+            }
+
+            if(is_array($v)) {
+                if (isset($v[0])) {
+                    $rules = array_merge($rules, $this->parseValidationRule($v, $field));
+                } else {
+                    $rules[] = array(
+                        'field' => $field,
+                        'rule'  => @$v['rule'],
+                        'message' => isset($v['message']) ? $v['message'] : $defaultMessage
+                    );
+                }
+            } else {
+                $rules[] = array(
+                    'field' => $field,
+                    'rule'  => $v,
+                    'message' => $defaultMessage
+                );
+            }
+        }
+        return $rules;
     }
 
     public static function update($fields, $conditions) {
@@ -319,7 +349,7 @@ class Model {
         return $inst->execute($sql);
     }
 
-    public static function validateionErrors() {
+    public static function validationErrors() {
         return self::getInstance()->validateErrors;
     }
 
@@ -371,7 +401,7 @@ class Model {
 
         foreach ($conditions as $k=>$v) {
             if (in_array(strtoupper($k), array('AND', 'OR'))) {
-                $where .= $this->parseConditions($v, strtoupper($k));
+                $where .= " {$glue} (".$this->parseConditions($v, strtoupper($k)) . ")";
             } else {
                 $where .= $this->conditionsSegment($k, $v, $glue);
             }
