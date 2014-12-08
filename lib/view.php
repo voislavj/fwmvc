@@ -253,6 +253,18 @@ class View {
             $options['id']   = $this->parseInputId($options['name']);
         }
 
+        $validationError = "";
+        if (isset($this->viewVars['validationErrors'][$name])) {
+            $options['data-error'] = "true";
+            if (isset($options['label'])) {
+                if (! isset($options['label-options'])) {
+                    $options['label-options'] = array();
+                }
+                $options['label-options']['data-error'] = "true";
+            }
+            $validationError = '<span class="error-message">' . $this->viewVars['validationErrors'][$name] . '</span>';
+        }
+
         $html = '';
 
         // type
@@ -277,7 +289,7 @@ class View {
         }
 
         $options = $this->parseInputOptions($options);
-        $html .= "<input{$options}>";
+        $html .= "<input{$options}>" . $validationError;
 
         return $html;
     }
@@ -423,32 +435,32 @@ class View {
         $html .= '<div id="'.$id.'" style="'.$css.'" class="left"></div>'.
                 '<div class="left" style="margin-left:10px">'.
                     '<fieldset><legend>' . __('mapa') . ':</legend>'.
-                    $this->text(array_merge_recursive($arrName, array('map', 'lat')), array(
-                        'value' => $val['map']['lat'],
-                        'label' => __('lat').":"
-                    )).
-                    $this->text(array_merge_recursive($arrName, array('map', 'lng')), array(
-                        'value' => $val['map']['lng'],
-                        'label' => __('lng').":"
-                    )).
-                    $this->text(array_merge_recursive($arrName, array('map', 'zoom')), array(
-                        'value' => $val['map']['zoom'],
-                        'label' => __('zoom').":"
-                    )).
-                    '</fieldset>'.
-                    '<fieldset><legend>' . __('street view') . ':</legend>'.
-                    $this->text(array_merge_recursive($arrName, array('streetview', 'heading')), array(
-                        'value' => $val['streetview']['heading'],
-                        'label' => __('heading').":"
-                    )).
-                    $this->text(array_merge_recursive($arrName, array('streetview', 'pitch')), array(
-                        'value' => $val['streetview']['pitch'],
-                        'label' => __('pitch').":"
-                    )).
-                    $this->text(array_merge_recursive($arrName, array('streetview', 'zoom')), array(
-                        'value' => $val['streetview']['zoom'],
-                        'label' => __('zoom').":"
-                    )).'</fieldset>'.
+                $this->text(array_merge_recursive($arrName, array('map', 'lat')), array(
+                    'value' => $val['map']['lat'],
+                    'label' => __('lat').":"
+                )).
+                $this->text(array_merge_recursive($arrName, array('map', 'lng')), array(
+                    'value' => $val['map']['lng'],
+                    'label' => __('lng').":"
+                )).
+                $this->text(array_merge_recursive($arrName, array('map', 'zoom')), array(
+                    'value' => $val['map']['zoom'],
+                    'label' => __('zoom').":"
+                )).
+                '</fieldset>'.
+                '<fieldset><legend>' . __('street view') . ':</legend>'.
+                $this->text(array_merge_recursive($arrName, array('streetview', 'heading')), array(
+                    'value' => $val['streetview']['heading'],
+                    'label' => __('heading').":"
+                )).
+                $this->text(array_merge_recursive($arrName, array('streetview', 'pitch')), array(
+                    'value' => $val['streetview']['pitch'],
+                    'label' => __('pitch').":"
+                )).
+                $this->text(array_merge_recursive($arrName, array('streetview', 'zoom')), array(
+                    'value' => $val['streetview']['zoom'],
+                    'label' => __('zoom').":"
+                )).'</fieldset>'.
                 '</div>'.
                 '<script type="text/javascript">new MapInput("'.$id.'", '.json_encode($val).')</script>';
 
