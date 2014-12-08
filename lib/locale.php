@@ -31,6 +31,10 @@ class Locale {
         return self::getInstance()->languages;
     }
 
+    public static function language($lang) {
+        return self::getInstance()->languages[$lang];
+    }
+
     public static function translate($key) {
         // no translation
         if (! self::get()) {
