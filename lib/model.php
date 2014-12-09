@@ -64,6 +64,21 @@ class Model {
         $this->name = $name;
     }
 
+    public static function options_for_select($value=null, $label=null, $conditions=array()) {
+        $value = $value ? $value : 'id';
+        $label = $label ? $label : 'name';
+
+        $options = array();
+        $data = self::build()
+                    ->select(array($value, $label))
+                    ->where($conditions)
+                    ->query();
+        foreach($data as $row) {
+            $options[$row->$value] = $row->$label;
+        }
+        return $options;
+    }
+
     public static function build() {
         $inst = self::getInstance();
         $inst->q_fields = $inst->fields;
