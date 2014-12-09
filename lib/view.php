@@ -391,7 +391,7 @@ class View {
     }
 
     public function map($name, $options) {
-        $arrName = $name;
+        $arrName = is_array($name) ? $name : array($name);
         $name = $this->parseInputName($name);
         $id   = $this->parseInputId($name);
 
