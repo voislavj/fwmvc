@@ -403,18 +403,19 @@ class View {
             $html .= $this->label($name, $options['label']);
         }
 
-        if (! isset($options['value'])) {
+        if (! $options['value']) {
             $options['value'] = array(
-                'lat' => null,
-                'lng' => null,
-                'street' => array(
+                'map' => array(
+                    'lat' => 44.826865474148825,
+                    'lng' => 20.454727172851562,
+                    'zoom' => 12
+                ),
+                'streetview' => array(
                     'heading' => 0,
                     'pitch'   => 0,
                     'zoom'    => 1
                 )
             );
-        } else {
-            $options['value']['street'] = $options['value'];
         }
 
         $css = '';
@@ -432,6 +433,7 @@ class View {
         }
 
         $val = $options['value'];
+
         $html .= '<div id="'.$id.'" style="'.$css.'" class="left"></div>'.
                 '<div class="left" style="margin-left:10px">'.
                     '<fieldset><legend>' . __('mapa') . ':</legend>'.
