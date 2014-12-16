@@ -429,7 +429,7 @@ class View {
             if (preg_match('/^\d+$/', $options['height'])) {
                 $options['height'] .= 'px';
             }
-            $css .= 'height:'.$options['width'].';';
+            $css .= 'height:'.$options['height'].';';
         }
 
         $val = $options['value'];
