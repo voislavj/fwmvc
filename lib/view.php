@@ -381,6 +381,13 @@ class View {
         return $html;
     }
 
+    public function button($label, $options=array()) {
+        return $this->input(@$options['name'], array_merge($options, array(
+            'type'  => 'button',
+            'value' => $label
+        )));
+    }
+
     public function submit($label, $options=array()) {
         $options = array_merge($options, array(
             'value' => $label,
@@ -463,8 +470,11 @@ class View {
                     'value' => $val['streetview']['zoom'],
                     'label' => __('zoom').":"
                 )).'</fieldset>'.
-                '</div>'.
-                '<script type="text/javascript">new MapInput("'.$id.'", '.json_encode($val).')</script>';
+                '</div>';
+
+        if (! @$options['async']) {
+            $html .= '<script type="text/javascript">new MapInput("'.$id.'", '.json_encode($val).')</script>';
+        }
 
         return $html.'</div>';
     }
