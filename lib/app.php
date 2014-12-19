@@ -28,6 +28,8 @@ class APP {
     public function __construct() {
         self::$ROOT = dirname(dirname(__FILE__));
 
+        ini_set('session.save_path', self::$ROOT . DS . 'tmp');
+
         if (! session_id()) session_start();
         ob_start();
 
