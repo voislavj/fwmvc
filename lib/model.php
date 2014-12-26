@@ -432,6 +432,10 @@ class Model {
             $encS = $encE = '';
         }
 
+        if (strstr($field, ".")) {
+            $field = str_replace(".", "`.`", $field);
+        }
+
         $sql = " {$glue} {$encS}`{$field}`";
 
         if (is_numeric($value)) {
