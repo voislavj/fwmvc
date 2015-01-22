@@ -5,8 +5,8 @@ require_once 'view.php';
 class Controller {
 
     public static $errors = array(
-        500 => 'Server error',
-        404 => 'Not found'
+        500 => 'Greška na serveru',
+        404 => 'Tražena stranica nije pronađena'
     );
 
     public $autoRender = true;
@@ -32,7 +32,7 @@ class Controller {
         header("HTTP/1.1 {$code} {$message}");
 
         if (App::config('environment') != 'development') {
-            $message = self::$errors[$code];
+            $message = __(self::$errors[$code]);
         }
         $this->set('message', $message);
         $this->pageTitle = "Greška {$code}";
