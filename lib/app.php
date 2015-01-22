@@ -174,8 +174,18 @@ class APP {
 
     public static function config($name, $value=null) {
         $inst = self::getInstance();
+        
         if ($value === null) {
-            return @$inst->config[$name];
+            if (strstr($name, ".")) {
+                $items = explode(".", $name);
+                $cfg = $inst->config;
+                foreach($items as $k) {
+                    $cfg = @$cfg[$k];
+                }
+                return $cfg;
+            } else {
+                return @$inst->config[$name];
+            }
         } else {
             $inst->config[$name] = $value;
         }
