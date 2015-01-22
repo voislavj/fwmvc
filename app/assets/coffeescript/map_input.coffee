@@ -1,34 +1,56 @@
-_this=null
+_thisMap=null
 
 class MapInput
     constructor: (@id, @data)->
-        window.mapInputs[id] = this
-        _this = this
+        window.mapInputs[@id] = this
+        _thisMap = this
+
+        unless @data.streetview.lat?
+            @data.streetview.lat = @data.map.lat
+        unless @data.streetview.lng?
+            @data.streetview.lng = @data.map.lng
+
+        console.log @data.streetview
 
         @el   = document.getElementById(@id)
         @info = document.createElement('div')
         @save = document.createElement('input')
-
-        @position   = new google.maps.LatLng(data.map.lat, data.map.lng)
+        @position   = new google.maps.LatLng(@data.map.lat, @data.map.lng)
+        @posStreet  = new google.maps.LatLng(@data.streetview.lat, @data.streetview.lng)
         @map        = null
         @marker     = null
         @streetview = null
 
         handleEvent window, 'load', ()->
-        _this.init()
+        _thisMap.init()
 
     init: ()->
+        @loadInputs()
         @initMap()
         @initMarker()
         @initStreetView()
+        @initInputs()
+
+    loadInputs: ()->
+        id = @id.replace /_+$/, ''
+
+        @inptMapLat  = document.getElementById(id+'_map_lat')
+        @inptMapLng  = document.getElementById(id+'_map_lng')
+        @inptMapZoom = document.getElementById(id+'_map_zoom')
+
+        @inptSvLat     = document.getElementById(id+'_streetview_lat')
+        @inptSvLng     = document.getElementById(id+'_streetview_lng')
+        @inptSvHeading = document.getElementById(id+'_streetview_heading')
+        @inptSvPitch   = document.getElementById(id+'_streetview_pitch')
+        @inptSvZoom    = document.getElementById(id+'_streetview_zoom')
 
     initMap: ()->
         @map = new google.maps.Map @el,
               center: @position,
-              zoom: 18,
+              zoom: @data.map.zoom,
               streetViewControl: true
         handleEvent @map, 'zoom_changed', ()->
-            _this.updateMapZoom @getZoom()
+            _thisMap.updateMapZoom @getZoom()
 
     initMarker: ()->
         @marker = new google.maps.Marker
@@ -37,17 +59,53 @@ class MapInput
             animation: google.maps.Animation.DROP,
             draggable: true
         handleEvent @marker, 'dragend', ()->
-            _this.updateMapPosition this.getPosition()
+            _thisMap.updateMapPosition this.getPosition()
 
     initStreetView: ()->
         @streetview = @map.getStreetView()
         @streetview.setPosition @position
         @streetview.setPov
-            heading: parseFloat(_this.data.streetview.heading),
-            pitch:   parseFloat(_this.data.streetview.pitch),
-            zoom:    parseFloat(_this.data.streetview.zoom)
+            heading: parseFloat(_thisMap.data.streetview.heading),
+            pitch:   parseFloat(_thisMap.data.streetview.pitch),
+            zoom:    parseFloat(_thisMap.data.streetview.zoom)
         handleEvent @streetview, 'pov_changed', ()->
-            _this.updatePov @getPov()
+            _thisMap.updatePov @getPov()
+
+    initInputs: ()->
+        @inptMapLat.onchange = (e)->
+            _thisMap.data.map.lat = this.value
+            _thisMap.updateMap()
+        @inptMapLng.onchange = (e)->
+            _thisMap.data.map.lng = this.value
+            _thisMap.updateMap()
+        @inptMapZoom.onchange = (e)->
+            _thisMap.data.map.zoom = this.value
+            _thisMap.updateMap()
+
+        @inptSvHeading.onchange = (e)->
+            _thisMap.data.streetview.heading = this.value
+            _thisMap.updateStreetView()
+        @inptSvPitch.onchange = (e)->
+            _thisMap.data.streetview.pitch = this.value
+            _thisMap.updateStreetView()
+        @inptSvZoom.onchange = (e)->
+            _thisMap.data.streetview.zoom = this.value
+            _thisMap.updateStreetView()
+
+    updateMap: ()->
+        pos =
+            lat: parseFloat(@data.map.lat),
+            lng: parseFloat(@data.map.lng)
+        
+        @map.setCenter pos
+        @map.setZoom parseInt(@data.map.zoom)
+        @marker.setPosition pos
+
+    updateStreetView: ()->
+        @streetview.setPov
+            heading: parseFloat(@data.streetview.heading),
+            pitch:   parseFloat(@data.streetview.pitch),
+            zoom:    parseFloat(@data.streetview.zoom)
 
     updateMapPosition: (pos)->
         @data.map.lat = pos.lat()
@@ -69,14 +127,13 @@ class MapInput
         @updateInputs()
 
     updateInputs:()->
-        console.log(_this.id)
-        document.getElementById(_this.id+'map_lat').value  = this.data.map.lat
-        document.getElementById(_this.id+'map_lng').value  = this.data.map.lng
-        document.getElementById(_this.id+'map_zoom').value = this.data.map.zoom
+        @inptMapLat.value  = this.data.map.lat
+        @inptMapLng.value  = this.data.map.lng
+        @inptMapZoom.value = this.data.map.zoom
 
-        document.getElementById(_this.id+'street_heading').value = this.data.streetview.heading
-        document.getElementById(_this.id+'street_pitch').value   = this.data.streetview.pitch
-        document.getElementById(_this.id+'street_zoom').value    = this.data.streetview.zoom
+        @inptSvHeading.value = this.data.streetview.heading
+        @inptSvPitch.value   = this.data.streetview.pitch
+        @inptSvZoom.value    = this.data.streetview.zoom
 
 handleEvent = (object, name, handler)->
   google.maps.event.addDomListener object, name, ()->
