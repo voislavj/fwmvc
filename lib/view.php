@@ -254,7 +254,8 @@ class View {
         }
 
         $validationError = "";
-        if (isset($this->viewVars['validationErrors'][$name])) {
+        $key = is_array($name) ? end($name) : $name;
+        if (isset($this->viewVars['validationErrors'][$key])) {
             $options['data-error'] = "true";
             if (isset($options['label'])) {
                 if (! isset($options['label-options'])) {
@@ -262,7 +263,7 @@ class View {
                 }
                 $options['label-options']['data-error'] = "true";
             }
-            $validationError = '<span class="error-message">' . $this->viewVars['validationErrors'][$name] . '</span>';
+            $validationError = '<span class="error-message">' . $this->viewVars['validationErrors'][$key] . '</span>';
         }
 
         $html = '';

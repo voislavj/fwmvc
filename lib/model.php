@@ -261,8 +261,6 @@ class Model {
     }
 
     public function validateData($data) {
-        $defaultMessage = "Field %s is invalid.";
-
         // flatten rules
         $rules = $this->parseValidationRule($this->validate);
 
@@ -281,6 +279,8 @@ class Model {
     }
 
     private function parseValidationRule($r, $forceField=false) {
+        $defaultMessage = "Field %s is invalid.";
+
         $rules = array();
         foreach($r as $field=>$v) {
             if ($forceField) {
@@ -294,14 +294,14 @@ class Model {
                     $rules[] = array(
                         'field' => $field,
                         'rule'  => @$v['rule'],
-                        'message' => isset($v['message']) ? $v['message'] : $defaultMessage
+                        'message' => isset($v['message']) ? $v['message'] : sprintf($defaultMessage, $field)
                     );
                 }
             } else {
                 $rules[] = array(
                     'field' => $field,
                     'rule'  => $v,
-                    'message' => $defaultMessage
+                    'message' => sprintf($defaultMessage, $field)
                 );
             }
         }
@@ -326,10 +326,13 @@ class Model {
 
     public static function insert($data) {
         $inst = self::getInstance();
+        if (! $inst->validateData($data)) {
+            $inst->errorLoad(array(__('Uneti podaci nisu validni.')));
+            return false;
+        }
 
         $fields = array_keys($data);
         $values = array_values($data);
-
         $sql = "INSERT INTO {$inst->table}(`".implode('`, `', $fields)."`) ".
                "VALUES(";
         foreach ($values as $value) {
