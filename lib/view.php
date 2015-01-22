@@ -418,6 +418,8 @@ class View {
                     'zoom' => 12
                 ),
                 'streetview' => array(
+                    'lat'     => 44.826865474148825,
+                    'lng'     => 20.454727172851562,
                     'heading' => 0,
                     'pitch'   => 0,
                     'zoom'    => 1
@@ -439,6 +441,9 @@ class View {
             $css .= 'height:'.$options['height'].';';
         }
 
+        if (!$options['value']['streetview']['lat']) $options['value']['streetview']['lat']=$options['value']['map']['lat'];
+        if (!$options['value']['streetview']['lng']) $options['value']['streetview']['lng']=$options['value']['map']['lng'];
+
         $val = $options['value'];
 
         $html .= '<div id="'.$id.'" style="'.$css.'" class="left"></div>'.
@@ -458,6 +463,14 @@ class View {
                 )).
                 '</fieldset>'.
                 '<fieldset><legend>' . __('street view') . ':</legend>'.
+                $this->text(array_merge_recursive($arrName, array('streetview', 'lat')), array(
+                    'value' => $val['streetview']['lat'],
+                    'label' => __('lat').":"
+                )).
+                $this->text(array_merge_recursive($arrName, array('streetview', 'lng')), array(
+                    'value' => $val['streetview']['lng'],
+                    'label' => __('lng').":"
+                )).
                 $this->text(array_merge_recursive($arrName, array('streetview', 'heading')), array(
                     'value' => $val['streetview']['heading'],
                     'label' => __('heading').":"
