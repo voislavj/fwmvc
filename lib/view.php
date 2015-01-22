@@ -403,7 +403,7 @@ class View {
         $name = $this->parseInputName($name);
         $id   = $this->parseInputId($name);
 
-        $html = '<script type="text/javascript" src="/js/google-maps-v3.js"></script>'.
+        $html = '<script type="text/javascript" src="'. App::config('google_maps.include') .'"></script>'.
                 $this->asset('js', 'map_input').
                 '<div class="map-input">';
 
