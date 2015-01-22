@@ -441,8 +441,8 @@ class View {
             $css .= 'height:'.$options['height'].';';
         }
 
-        if (!$options['value']['streetview']['lat']) $options['value']['streetview']['lat']=$options['value']['map']['lat'];
-        if (!$options['value']['streetview']['lng']) $options['value']['streetview']['lng']=$options['value']['map']['lng'];
+        if (empty($options['value']['streetview']['lat'])) $options['value']['streetview']['lat']=$options['value']['map']['lat'];
+        if (empty($options['value']['streetview']['lng'])) $options['value']['streetview']['lng']=$options['value']['map']['lng'];
 
         $val = $options['value'];
 
